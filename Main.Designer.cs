@@ -100,7 +100,8 @@ namespace Richards_Part_Tracker
             this.viewPartTracker.TabIndex = 0;
             this.viewPartTracker.UseCompatibleStateImageBehavior = false;
             this.viewPartTracker.View = System.Windows.Forms.View.Details;
-            this.viewPartTracker.Resize += new System.EventHandler(this.viewPartTracker_Resize);
+            this.viewPartTracker.SelectedIndexChanged += new System.EventHandler(this.viewPartTracker_SelectedIndexChanged);
+            this.viewPartTracker.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.viewPartTracker_MouseDoubleClick);
             // 
             // PartTracker
             // 
@@ -112,6 +113,7 @@ namespace Richards_Part_Tracker
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PartTracker";
             this.Text = "Richards Part Tracker";
+            this.ResizeEnd += new System.EventHandler(this.PartTracker_ResizeEnd);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
