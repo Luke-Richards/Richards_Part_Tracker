@@ -33,7 +33,7 @@ namespace Richards_Part_Tracker
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PartTracker));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.txtSearch = new WindowsFormsAero.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.viewPartTracker = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -68,11 +68,13 @@ namespace Richards_Part_Tracker
             // txtSearch
             // 
             this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(10, 151);
+            this.txtSearch.CueBannerText = "Search";
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(12, 151);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(193, 28);
+            this.txtSearch.Size = new System.Drawing.Size(223, 30);
             this.txtSearch.TabIndex = 4;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // btnAdd
             // 
@@ -128,7 +130,7 @@ namespace Richards_Part_Tracker
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListView viewPartTracker;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.TextBox txtSearch;
+        private WindowsFormsAero.TextBox txtSearch;
     }
 }
 

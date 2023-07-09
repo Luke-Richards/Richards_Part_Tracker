@@ -15,6 +15,7 @@ namespace Richards_Part_Tracker
     {
         Boolean isedit = false;
         int target = -1;
+        string targetName = "notarget";
         SQLiteConnection con = new SQLiteConnection();
         public Add_Edit_Part(SQLiteConnection con, int selected = -1)
         {
@@ -25,19 +26,20 @@ namespace Richards_Part_Tracker
             {
                 target = selected;
                 isedit = true;
-                Console.WriteLine(selected);
                 SQLiteCommand command = con.CreateCommand();
-                command.CommandText = "SELECT part_name,bin_number,quantity,description FROM parts WHERE parts.id = "+(selected+1)+";";
+                command.CommandText = "SELECT part_name,bin_number,quantity,description FROM parts WHERE parts.id = "+(selected)+";";
                 var result = command.ExecuteReader();
                 if (result.Read()){
+                    targetName = result.GetString(0).ToString();
                     txtName.Text = result.GetValue(0).ToString();
                     txtBin.Text = result.GetValue(1).ToString();
                     txtQuantity.Text = result.GetValue(2).ToString();
                     txtDesc.Text = result.GetValue(3).ToString();
                 }
-                btnAdd.Text = "Edit";
+                btnAdd.Text = "Save";
+                btnDelete.Visible = true;
                 this.Text = "Edit Part";
-
+                hasChanged();
             }
         }
 
@@ -53,18 +55,94 @@ namespace Richards_Part_Tracker
             {
                 command.CommandText = "INSERT INTO parts ('part_name','bin_number','quantity','description') " +
                 "VALUES ('" + txtName.Text + "','" + txtBin.Text + "','" + txtQuantity.Text + "','" + txtDesc.Text + "');";
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    this.Close();
+                }
             }
             else
             {
-                command.CommandText = "UPDATE parts SET " +
-                "'part_name' = '" + txtName.Text + "', 'bin_number' = '" + txtBin.Text + "', 'quantity' = '" + txtQuantity.Text + "', 'description' = '" + txtDesc.Text + "'" +
-                "WHERE parts.id = "+(target+1)+";";
+                var confirmResult = MessageBox.Show("Are you sure you want to save changes to: "+targetName,
+                                     "Confirm Changes",
+                                     MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    command.CommandText = "UPDATE parts SET " +
+                        "'part_name' = '" + txtName.Text + "', 'bin_number' = '" + txtBin.Text + "', 'quantity' = '" + txtQuantity.Text + "', 'description' = '" + txtDesc.Text + "'" +
+                        "WHERE parts.id = " + target + ";";
+
+                    if (command.ExecuteNonQuery() > 0)
+                    {
+                        this.Close();
+                    }
+                }
+                
             }
 
-            if (command.ExecuteNonQuery() > 0)
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this item ??",
+                                     "Confirm Delete!!",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
             {
-                this.Close();
+                SQLiteCommand command = con.CreateCommand();
+                command.CommandText = "DELETE FROM parts WHERE parts.id = "+(target)+"; ";
+
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    this.Close();
+                }
             }
+        }
+        private void hasChanged()
+        {
+
+            if (target != -1)
+            {
+                SQLiteCommand command = con.CreateCommand();
+                command.CommandText = "SELECT part_name,bin_number,quantity,description FROM parts WHERE parts.id = " + (target) + ";";
+
+                var result = command.ExecuteReader();
+                if (result.Read())
+                {
+                    if(txtName.Text != result.GetValue(0).ToString() ||
+                       txtBin.Text != result.GetValue(1).ToString() ||
+                       txtQuantity.Value != Int32.Parse(result.GetValue(2).ToString()) ||
+                       txtDesc.Text != result.GetValue(3).ToString())
+                    {
+                        btnAdd.Enabled = true;
+                    }
+                    else
+                    {
+                        btnAdd.Enabled = false;
+                    }
+
+                }
+
+            }
+        }
+
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            hasChanged();
+        }
+
+        private void txtBin_TextChanged(object sender, EventArgs e)
+        {
+            hasChanged();
+        }
+
+        private void txtDesc_TextChanged(object sender, EventArgs e)
+        {
+            hasChanged();
+        }
+
+        private void txtQuantity_ValueChanged(object sender, EventArgs e)
+        {
+            hasChanged();
         }
     }
 }

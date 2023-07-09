@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Richards_Part_Tracker
 {
     public partial class PartTracker : Form
     {
         SQLiteConnection con = new SQLiteConnection(@"URI=file:./part_database.sqlite");
+        IDictionary<int, int> positionID = new Dictionary<int, int>();
+        
         public PartTracker()
         {
             InitializeComponent();
@@ -38,24 +42,52 @@ namespace Richards_Part_Tracker
             viewPartTracker.Columns.Add("Bin #", -2, HorizontalAlignment.Left);
             viewPartTracker.Columns.Add("Quantity", -2, HorizontalAlignment.Left);
             viewPartTracker.Columns.Add("Description", -2, HorizontalAlignment.Left);
-
             SQLiteCommand command = con.CreateCommand();
-            command.CommandText = "SELECT part_name,bin_number,quantity,description FROM parts";
+            command.CommandText = "SELECT id, part_name,bin_number,quantity,description FROM parts";
             var result = command.ExecuteReader();
-
+            positionID = new Dictionary<int, int>();
             for (int i = 1; result.Read(); i++)
             {
-
+                Console.WriteLine(i.ToString()+", "+ result.GetValue(0).ToString());
+                positionID.Add(i, Int32.Parse(result.GetValue(0).ToString())); //adding a key/value using the Add() method
                 string[] row = new string[result.FieldCount];
-                for (int j = 0; j < result.FieldCount; j++)
+                for (int j = 1; j < result.FieldCount; j++)
                 {
-                    row[j] = result.GetValue(j).ToString();
+                    row[j-1] = result.GetValue(j).ToString();
                 }
-                viewPartTracker.Items.Add(new ListViewItem(row));
+                ListViewItem rowItem = new ListViewItem(row);
+                rowItem.UseItemStyleForSubItems = false;
+
+                bool isSearch = txtSearch.Text != "".Trim();
+                bool find = !isSearch;
+                if (isSearch)
+                {
+                    for (int j = 0; j < rowItem.SubItems.Count; j++)
+                    {
+
+                        if (rowItem.SubItems[j].Text.Contains(txtSearch.Text))
+                        {
+                            rowItem.SubItems[j].BackColor = System.Drawing.Color.Yellow;
+                            Console.WriteLine(rowItem.SubItems[j].Text);
+                            find = true;
+                        }
+                        else
+                        {
+                            rowItem.SubItems[j].BackColor = System.Drawing.Color.White;
+                        }
+                    }
+                }
+                if (find)
+                {
+                    viewPartTracker.Items.Add(rowItem);
+                }
+                
             }
             listViewResize(viewPartTracker);
 
         }
+
+
 
         private void listViewResize(ListView lv)
         {
@@ -130,10 +162,17 @@ namespace Richards_Part_Tracker
 
         private void viewPartTracker_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Form edit = new Add_Edit_Part(con, viewPartTracker.FocusedItem.Index);
+            Form edit = new Add_Edit_Part(con, positionID[viewPartTracker.FocusedItem.Index+1]);
             edit.ShowDialog();
             loadParts();
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+           loadParts();
+        }
+
+
 
         /*//
         private void viewPartTracker_Resize(object sender, EventArgs e)
