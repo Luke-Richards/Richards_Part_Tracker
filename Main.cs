@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
@@ -46,6 +47,8 @@ namespace Richards_Part_Tracker
             command.CommandText = "SELECT id, part_name,bin_number,quantity,description FROM parts";
             var result = command.ExecuteReader();
             positionID = new Dictionary<int, int>();
+            int findCounter = 0;
+            bool isSearch = txtSearch.Text != "".Trim();
             for (int i = 1; result.Read(); i++)
             {
                 Console.WriteLine(i.ToString()+", "+ result.GetValue(0).ToString());
@@ -58,8 +61,9 @@ namespace Richards_Part_Tracker
                 ListViewItem rowItem = new ListViewItem(row);
                 rowItem.UseItemStyleForSubItems = false;
 
-                bool isSearch = txtSearch.Text != "".Trim();
+                
                 bool find = !isSearch;
+                
                 if (isSearch)
                 {
                     for (int j = 0; j < rowItem.SubItems.Count; j++)
@@ -67,9 +71,25 @@ namespace Richards_Part_Tracker
 
                         if (rowItem.SubItems[j].Text.Contains(txtSearch.Text))
                         {
-                            rowItem.SubItems[j].BackColor = System.Drawing.Color.Yellow;
-                            Console.WriteLine(rowItem.SubItems[j].Text);
-                            find = true;
+                            if (!cbSearch.Checked)
+                            {
+                                if(j == 0 & cbName.Checked ||
+                                   j == 1 && cbBin.Checked ||
+                                   j == 2 && cbQuantity.Checked ||
+                                   j == 3 && cbDesc.Checked
+                                    )
+                                {
+                                    rowItem.SubItems[j].BackColor = System.Drawing.Color.Yellow;
+                                    Console.WriteLine(rowItem.SubItems[j].Text);
+                                    find = true;
+                                }
+                            }
+                            else
+                            {
+                                rowItem.SubItems[j].BackColor = System.Drawing.Color.Yellow;
+                                Console.WriteLine(rowItem.SubItems[j].Text);
+                                find = true;
+                            }
                         }
                         else
                         {
@@ -79,9 +99,27 @@ namespace Richards_Part_Tracker
                 }
                 if (find)
                 {
+                    findCounter++;
                     viewPartTracker.Items.Add(rowItem);
                 }
                 
+            }
+            if (!isSearch)
+            {
+                lblFound.Text = "";
+            }
+            else
+            {
+                if(findCounter > 0)
+                {
+                    lblFound.Text = findCounter+" Results";
+                    lblFound.ForeColor = System.Drawing.Color.Blue;
+                }
+                else
+                {
+                    lblFound.Text = "0 Results";
+                    lblFound.ForeColor = System.Drawing.Color.DarkRed;
+                }
             }
             listViewResize(viewPartTracker);
 
@@ -170,6 +208,73 @@ namespace Richards_Part_Tracker
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
            loadParts();
+        }
+
+        private void cbDesc_CheckedChanged(object sender, EventArgs e)
+        {
+            searchAll();
+        }
+
+        private void cbName_CheckedChanged(object sender, EventArgs e)
+        {
+            searchAll();
+        }
+
+        private void cbBin_CheckedChanged(object sender, EventArgs e)
+        {
+            searchAll();
+        }
+
+        private void cbQuantity_CheckedChanged(object sender, EventArgs e)
+        {
+            searchAll();
+        }
+
+        private bool searchAll()
+        {
+            loadParts();
+            bool isAll = false;
+
+            if(cbBin.Checked)
+            {
+                if(cbName.Checked) 
+                { 
+                    if(cbDesc.Checked)
+                    {
+                        if (cbQuantity.Checked)
+                        {
+                            if (cbBin.Checked)
+                            {
+                                isAll = true;
+                            }
+                        }
+                    }
+                }
+            }
+            cbSearch.Checked = isAll;
+            return isAll;
+        }
+
+        private void cbSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbSearch.Checked)
+            {
+                cbBin.Checked = true;
+                cbName.Checked = true;
+                cbDesc.Checked = true;
+                cbQuantity.Checked = true;
+            }
+            else
+            {
+                if (searchAll())
+                {
+                    cbBin.Checked = false;
+                    cbName.Checked = false;
+                    cbDesc.Checked = false;
+                    cbQuantity.Checked = false;
+                    searchAll();
+                }
+            }
         }
 
 

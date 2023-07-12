@@ -36,6 +36,12 @@ namespace Richards_Part_Tracker
             this.txtSearch = new WindowsFormsAero.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.viewPartTracker = new System.Windows.Forms.ListView();
+            this.cbName = new System.Windows.Forms.CheckBox();
+            this.cbBin = new System.Windows.Forms.CheckBox();
+            this.cbQuantity = new System.Windows.Forms.CheckBox();
+            this.cbDesc = new System.Windows.Forms.CheckBox();
+            this.cbSearch = new System.Windows.Forms.CheckBox();
+            this.lblFound = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -52,6 +58,12 @@ namespace Richards_Part_Tracker
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
+            this.splitContainer1.Panel1.Controls.Add(this.lblFound);
+            this.splitContainer1.Panel1.Controls.Add(this.cbSearch);
+            this.splitContainer1.Panel1.Controls.Add(this.cbDesc);
+            this.splitContainer1.Panel1.Controls.Add(this.cbQuantity);
+            this.splitContainer1.Panel1.Controls.Add(this.cbBin);
+            this.splitContainer1.Panel1.Controls.Add(this.cbName);
             this.splitContainer1.Panel1.Controls.Add(this.txtSearch);
             this.splitContainer1.Panel1.Controls.Add(this.btnAdd);
             this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(20);
@@ -70,7 +82,7 @@ namespace Richards_Part_Tracker
             this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtSearch.CueBannerText = "Search";
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(12, 151);
+            this.txtSearch.Location = new System.Drawing.Point(12, 126);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(223, 30);
             this.txtSearch.TabIndex = 4;
@@ -80,7 +92,7 @@ namespace Richards_Part_Tracker
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(10, 117);
+            this.btnAdd.Location = new System.Drawing.Point(12, 72);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(159, 28);
             this.btnAdd.TabIndex = 0;
@@ -104,6 +116,87 @@ namespace Richards_Part_Tracker
             this.viewPartTracker.View = System.Windows.Forms.View.Details;
             this.viewPartTracker.SelectedIndexChanged += new System.EventHandler(this.viewPartTracker_SelectedIndexChanged);
             this.viewPartTracker.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.viewPartTracker_MouseDoubleClick);
+            // 
+            // cbName
+            // 
+            this.cbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbName.AutoSize = true;
+            this.cbName.Checked = true;
+            this.cbName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbName.Location = new System.Drawing.Point(108, 162);
+            this.cbName.Name = "cbName";
+            this.cbName.Size = new System.Drawing.Size(63, 20);
+            this.cbName.TabIndex = 5;
+            this.cbName.Text = "name";
+            this.cbName.UseVisualStyleBackColor = true;
+            this.cbName.CheckedChanged += new System.EventHandler(this.cbName_CheckedChanged);
+            // 
+            // cbBin
+            // 
+            this.cbBin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbBin.AutoSize = true;
+            this.cbBin.Checked = true;
+            this.cbBin.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbBin.Location = new System.Drawing.Point(177, 162);
+            this.cbBin.Name = "cbBin";
+            this.cbBin.Size = new System.Drawing.Size(58, 20);
+            this.cbBin.TabIndex = 6;
+            this.cbBin.Text = "Bin #";
+            this.cbBin.UseVisualStyleBackColor = true;
+            this.cbBin.CheckedChanged += new System.EventHandler(this.cbBin_CheckedChanged);
+            // 
+            // cbQuantity
+            // 
+            this.cbQuantity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbQuantity.AutoSize = true;
+            this.cbQuantity.Checked = true;
+            this.cbQuantity.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbQuantity.Location = new System.Drawing.Point(241, 162);
+            this.cbQuantity.Name = "cbQuantity";
+            this.cbQuantity.Size = new System.Drawing.Size(77, 20);
+            this.cbQuantity.TabIndex = 7;
+            this.cbQuantity.Text = "Quantity";
+            this.cbQuantity.UseVisualStyleBackColor = true;
+            this.cbQuantity.CheckedChanged += new System.EventHandler(this.cbQuantity_CheckedChanged);
+            // 
+            // cbDesc
+            // 
+            this.cbDesc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbDesc.AutoSize = true;
+            this.cbDesc.Checked = true;
+            this.cbDesc.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbDesc.Location = new System.Drawing.Point(324, 162);
+            this.cbDesc.Name = "cbDesc";
+            this.cbDesc.Size = new System.Drawing.Size(97, 20);
+            this.cbDesc.TabIndex = 8;
+            this.cbDesc.Text = "Description";
+            this.cbDesc.UseVisualStyleBackColor = true;
+            this.cbDesc.CheckedChanged += new System.EventHandler(this.cbDesc_CheckedChanged);
+            // 
+            // cbSearch
+            // 
+            this.cbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbSearch.AutoSize = true;
+            this.cbSearch.Checked = true;
+            this.cbSearch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSearch.Location = new System.Drawing.Point(13, 162);
+            this.cbSearch.Name = "cbSearch";
+            this.cbSearch.Size = new System.Drawing.Size(89, 20);
+            this.cbSearch.TabIndex = 9;
+            this.cbSearch.Text = "Search all";
+            this.cbSearch.UseVisualStyleBackColor = true;
+            this.cbSearch.CheckedChanged += new System.EventHandler(this.cbSearch_CheckedChanged);
+            // 
+            // lblFound
+            // 
+            this.lblFound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblFound.AutoSize = true;
+            this.lblFound.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblFound.Location = new System.Drawing.Point(241, 136);
+            this.lblFound.Name = "lblFound";
+            this.lblFound.Size = new System.Drawing.Size(56, 16);
+            this.lblFound.TabIndex = 10;
+            this.lblFound.Text = "0 results";
             // 
             // PartTracker
             // 
@@ -131,6 +224,12 @@ namespace Richards_Part_Tracker
         private System.Windows.Forms.ListView viewPartTracker;
         private System.Windows.Forms.Button btnAdd;
         private WindowsFormsAero.TextBox txtSearch;
+        private CheckBox cbDesc;
+        private CheckBox cbQuantity;
+        private CheckBox cbBin;
+        private CheckBox cbName;
+        private CheckBox cbSearch;
+        private Label lblFound;
     }
 }
 
