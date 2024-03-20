@@ -53,7 +53,7 @@
             this.btnAdd.Location = new System.Drawing.Point(195, 415);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(87, 38);
-            this.btnAdd.TabIndex = 0;
+            this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -64,7 +64,7 @@
             this.btnCancel.Location = new System.Drawing.Point(9, 415);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(87, 38);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -74,7 +74,7 @@
             this.txtName.Location = new System.Drawing.Point(102, 42);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(100, 22);
-            this.txtName.TabIndex = 2;
+            this.txtName.TabIndex = 1;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // txtDesc
@@ -87,7 +87,7 @@
             this.txtDesc.Name = "txtDesc";
             this.txtDesc.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDesc.Size = new System.Drawing.Size(258, 130);
-            this.txtDesc.TabIndex = 5;
+            this.txtDesc.TabIndex = 4;
             this.txtDesc.TextChanged += new System.EventHandler(this.txtDesc_TextChanged);
             // 
             // lblName
@@ -132,7 +132,7 @@
             this.btnDelete.Location = new System.Drawing.Point(102, 415);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(87, 38);
-            this.btnDelete.TabIndex = 10;
+            this.btnDelete.TabIndex = 6;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Visible = false;
@@ -143,15 +143,17 @@
             this.txtQuantity.Location = new System.Drawing.Point(102, 154);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(100, 22);
-            this.txtQuantity.TabIndex = 11;
+            this.txtQuantity.TabIndex = 3;
             this.txtQuantity.ValueChanged += new System.EventHandler(this.txtQuantity_ValueChanged);
+            this.txtQuantity.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyUp);
             // 
             // txtBin
             // 
             this.txtBin.Location = new System.Drawing.Point(102, 98);
             this.txtBin.Name = "txtBin";
             this.txtBin.Size = new System.Drawing.Size(100, 22);
-            this.txtBin.TabIndex = 12;
+            this.txtBin.TabIndex = 2;
+            this.txtBin.TextChanged += new System.EventHandler(this.txtBin_TextChanged);
             // 
             // lblErrorName
             // 

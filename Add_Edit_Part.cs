@@ -113,7 +113,7 @@ namespace Richards_Part_Tracker
                 var result = command.ExecuteReader();
                 if (result.Read())
                 {
-                    if(txtName.Text != result.GetValue(0).ToString() ||
+                    if (txtName.Text != result.GetValue(0).ToString() ||
                        txtBin.Text != result.GetValue(1).ToString() ||
                        txtQuantity.Value != Int32.Parse(result.GetValue(2).ToString()) ||
                        txtDesc.Text != result.GetValue(3).ToString())
@@ -149,6 +149,11 @@ namespace Richards_Part_Tracker
         }
 
         private void txtQuantity_ValueChanged(object sender, EventArgs e)
+        {
+            lblErrorQuantity.Text = string.Empty;
+            hasChanged();
+        }
+        private void txtQuantity_KeyUp(object sender, KeyEventArgs e)
         {
             lblErrorQuantity.Text = string.Empty;
             hasChanged();

@@ -51,8 +51,6 @@ namespace Richards_Part_Tracker
             bool isSearch = txtSearch.Text != "".Trim();
             for (int i = 1; result.Read(); i++)
             {
-                Console.WriteLine(i.ToString()+", "+ result.GetValue(0).ToString());
-                positionID.Add(i, Int32.Parse(result.GetValue(0).ToString())); //adding a key/value using the Add() method
                 string[] row = new string[result.FieldCount];
                 for (int j = 1; j < result.FieldCount; j++)
                 {
@@ -69,25 +67,25 @@ namespace Richards_Part_Tracker
                     for (int j = 0; j < rowItem.SubItems.Count; j++)
                     {
 
-                        if (rowItem.SubItems[j].Text.Contains(txtSearch.Text))
+                        if (rowItem.SubItems[j].Text.ToLower().Contains(txtSearch.Text.ToLower()))
                         {
                             if (!cbSearch.Checked)
                             {
-                                if(j == 0 & cbName.Checked ||
-                                   j == 1 && cbBin.Checked ||
-                                   j == 2 && cbQuantity.Checked ||
-                                   j == 3 && cbDesc.Checked
+                                if( j == 0 & cbName.Checked ||
+                                    j == 1 && cbBin.Checked ||
+                                    j == 2 && cbQuantity.Checked ||
+                                    j == 3 && cbDesc.Checked
                                     )
                                 {
                                     rowItem.SubItems[j].BackColor = System.Drawing.Color.Yellow;
-                                    Console.WriteLine(rowItem.SubItems[j].Text);
+                                    //Console.WriteLine(rowItem.SubItems[j].Text);
                                     find = true;
                                 }
                             }
                             else
                             {
                                 rowItem.SubItems[j].BackColor = System.Drawing.Color.Yellow;
-                                Console.WriteLine(rowItem.SubItems[j].Text);
+                                //Console.WriteLine(rowItem.SubItems[j].Text);
                                 find = true;
                             }
                         }
@@ -97,8 +95,10 @@ namespace Richards_Part_Tracker
                         }
                     }
                 }
+      
                 if (find)
                 {
+                    positionID.Add(findCounter+1, Int32.Parse(result.GetValue(0).ToString())); //adding a key/value using the Add() method
                     findCounter++;
                     viewPartTracker.Items.Add(rowItem);
                 }
