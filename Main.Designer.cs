@@ -42,6 +42,7 @@ namespace Richards_Part_Tracker
             this.txtSearch = new WindowsFormsAero.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.viewPartTracker = new System.Windows.Forms.ListView();
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,6 +59,7 @@ namespace Richards_Part_Tracker
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
+            this.splitContainer1.Panel1.Controls.Add(this.btnExport);
             this.splitContainer1.Panel1.Controls.Add(this.lblFound);
             this.splitContainer1.Panel1.Controls.Add(this.cbSearch);
             this.splitContainer1.Panel1.Controls.Add(this.cbDesc);
@@ -198,6 +200,18 @@ namespace Richards_Part_Tracker
             this.viewPartTracker.SelectedIndexChanged += new System.EventHandler(this.viewPartTracker_SelectedIndexChanged);
             this.viewPartTracker.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.viewPartTracker_MouseDoubleClick);
             // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Location = new System.Drawing.Point(244, 67);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(65, 33);
+            this.btnExport.TabIndex = 11;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.button1_Click);
+            // 
             // PartTracker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -230,6 +244,7 @@ namespace Richards_Part_Tracker
         private CheckBox cbName;
         private CheckBox cbSearch;
         private Label lblFound;
+        private Button btnExport;
     }
 }
 

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq.Expressions;
+using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
@@ -123,6 +126,29 @@ namespace Richards_Part_Tracker
             }
             listViewResize(viewPartTracker);
 
+        }
+
+        private string[] retreiveDataStringArray(String option = "default")
+        {
+            List<string> output = new List<string>();
+            SQLiteCommand command = con.CreateCommand();
+            command.CommandText = "SELECT id, part_name,bin_number,quantity,description FROM parts";
+            var result = command.ExecuteReader();
+            
+            for (int i = 1; result.Read(); i++)
+            {
+                string[] row = new string[result.FieldCount];
+                for (int j = 1; j < result.FieldCount; j++)
+                {
+                    row[j - 1] = result.GetValue(j).ToString().TrimEnd('\r', '\n');
+                }
+                if(option == "default")
+                {
+                    output.Add(String.Join(" | ", row) + Environment.NewLine);
+                }
+                
+            }
+            return output.ToArray();
         }
 
 
@@ -274,6 +300,52 @@ namespace Richards_Part_Tracker
                     cbQuantity.Checked = false;
                     searchAll();
                 }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Readable text file|*.txt|Database backup|*.sqlite";
+            saveFileDialog.Title = "Save Parts Data";
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName != "")
+            {
+                System.IO.FileStream fs =
+                    (System.IO.FileStream)saveFileDialog.OpenFile();
+
+                switch (saveFileDialog.FilterIndex)
+                {
+                    case 1:
+                        string dataasstring = 
+                            "Part Name | Bin # | Quantity | Description" + 
+                            Environment.NewLine + Environment.NewLine +
+                            String.Join("", retreiveDataStringArray()); //your data
+                        byte[] info = new UTF8Encoding(true).GetBytes(dataasstring);
+                        fs.Write(info, 0, info.Length);
+                    break;
+
+                    case 2:
+                        con.Close();
+                        //garbage collector is required for connection close to release file
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+
+                        int bufferSize = 1024 * 1024 * 50;
+                        FileStream dbfs = new FileStream(AppDomain.CurrentDomain.BaseDirectory+"part_database.sqlite", FileMode.Open, FileAccess.Read);
+                        fs.SetLength(dbfs.Length);
+                        int bytesRead = -1;
+                        byte[] bytes = new byte[bufferSize];
+                        while ((bytesRead = dbfs.Read(bytes, 0, bufferSize)) > 0)
+                        {
+                            fs.Write(bytes, 0, bytesRead);
+                        }//*/
+                        con.Open();
+                   break;
+                }
+
+                fs.Close();
             }
         }
 
